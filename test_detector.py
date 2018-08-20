@@ -7,7 +7,7 @@ class TrafficLightClassifier(object):
         with self.detection_graph.as_default():
             od_graph_def = tf.GraphDef()
             # Works up to here.
-            with tf.gfile.GFile('/opt/TF/test/data/output2/inf_graph/frozen_inference_graph.pb', 'rb') as fid:
+            with tf.gfile.GFile('inference_graph/frozen_inference_graph.pb', 'rb') as fid:
                 serialized_graph = fid.read()
                 od_graph_def.ParseFromString(serialized_graph)
                 tf.import_graph_def(od_graph_def, name='')
@@ -33,7 +33,7 @@ class TrafficLightClassifier(object):
 
 def main(_):
     classifier = TrafficLightClassifier()
-    image = Image.open('/opt/TF/test/data/out_5.png')
+    image = Image.open('/opt/TF/test/210969/workcomp_210969_13_1510873007_30_49.jpg')
     (im_width, im_height) = image.size
     npImage = np.array(image.getdata()).reshape(
         (im_height, im_width, 3)).astype(np.uint8)
