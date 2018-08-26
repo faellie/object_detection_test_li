@@ -43,10 +43,10 @@ PATH_TO_CKPT = '/home/zihuangw/workspace/sandbox/LI/TF/models/research/object_de
 PATH_TO_LABELS = '/home/zihuangw/workspace/sandbox/LI/TF/models/research/object_detection/TEST_LI/config/label_map.pbtxt'
 
 # Path to image
-PATH_TO_IMAGE = '/opt/TF/test/210969/workcomp_210969_13_1510873007_30_49.jpg'
+PATH_TO_IMAGE = '/opt/TF/test/t1/out/eval/768_0_4_3_workcomp_216295_6_1516158110_39_85.jpg'
 
 # Number of classes the object detector can identify
-NUM_CLASSES = 11
+NUM_CLASSES = 10
 
 # Load the label map.
 # Label maps map indices to category names, so that when our convolution
@@ -105,8 +105,8 @@ vis_util.visualize_boxes_and_labels_on_image_array(
     np.squeeze(scores),
     category_index,
     use_normalized_coordinates=True,
-    line_thickness=8,
-    min_score_thresh=0.20)
+    line_thickness=2,
+    min_score_thresh=0.80)
 
 # All the results have been drawn on image. Now display the image.
 cv2.imshow('Object detector', image)
@@ -116,3 +116,5 @@ cv2.waitKey(0)
 
 # Clean up
 cv2.destroyAllWindows()
+
+
