@@ -21,6 +21,7 @@ import cv2
 import numpy as np
 import tensorflow as tf
 import sys
+import glob
 
 # This is needed since the notebook is stored in the object_detection folder.
 sys.path.append("..")
@@ -37,13 +38,15 @@ CWD_PATH = os.getcwd()
 
 # Path to frozen detection graph .pb file, which contains the model that is used
 # for object detection.
-PATH_TO_CKPT = '/home/zihuangw/workspace/sandbox/LI/TF/models/research/object_detection/inference_graph/frozen_inference_graph.pb'
+PATH_TO_CKPT = '/home/zihuangw/workspace/sandbox/LI/TF/models/research/object_detection/inference_graph200000/frozen_inference_graph.pb'
 
 # Path to label map file
 PATH_TO_LABELS = '/home/zihuangw/workspace/sandbox/LI/TF/models/research/object_detection/TEST_LI/config/label_map.pbtxt'
 
 # Path to image
-PATH_TO_IMAGE = '/opt/TF/test/t1/out/eval/768_0_4_3_workcomp_216295_6_1516158110_39_85.jpg'
+#PATH_TO_IMAGE = '/opt/TF/test/t1/out/384_0_4_3_workcomp_216295_6_1516231756_11_170.jpg'
+PATH_TO_IMAGE = '/opt/TF/test/t1/out/0_0_4_3_workcomp_211274_13_1511220649_42_52.jpg'
+DIR_TO_IMAGE = '/opt/TF/test/t1/out'
 
 # Number of classes the object detector can identify
 NUM_CLASSES = 10
@@ -88,33 +91,38 @@ num_detections = detection_graph.get_tensor_by_name('num_detections:0')
 # Load image using OpenCV and
 # expand image dimensions to have shape: [1, None, None, 3]
 # i.e. a single-column array, where each item in the column has the pixel RGB value
-image = cv2.imread(PATH_TO_IMAGE)
-image_expanded = np.expand_dims(image, axis=0)
+
+for jpg_file in glob.glob(DIR_TO_IMAGE + '/*.jpg'):
+    image = cv2.imread(jpg_file)
+    image_expanded = np.expand_dims(image, axis=0)
 
 # Perform the actual detection by running the model with the image as input
-(boxes, scores, classes, num) = sess.run(
-    [detection_boxes, detection_scores, detection_classes, num_detections],
-    feed_dict={image_tensor: image_expanded})
+    (boxes, scores, classes, num) = sess.run(
+        [detection_boxes, detection_scores, detection_classes, num_detections],
+        feed_dict={image_tensor: image_expanded})
 
 # Draw the results of the detection (aka 'visulaize the results')
 
-vis_util.visualize_boxes_and_labels_on_image_array(
-    image,
-    np.squeeze(boxes),
-    np.squeeze(classes).astype(np.int32),
-    np.squeeze(scores),
-    category_index,
-    use_normalized_coordinates=True,
-    line_thickness=2,
-    min_score_thresh=0.80)
+    vis_util.visualize_boxes_and_labels_on_image_array(
+        image,
+        np.squeeze(boxes),
+        np.squeeze(classes).astype(np.int32),
+        np.squeeze(scores),
+        category_index,
+        use_normalized_coordinates=True,
+        line_thickness=2,
+        min_score_thresh=0.20)
 
 # All the results have been drawn on image. Now display the image.
-cv2.imshow('Object detector', image)
+    cv2.imshow('Object detector', image)
 
 # Press any key to close the image
-cv2.waitKey(0)
+    k=cv2.waitKey(0 )
+    if(k==27) :
+        exit()
+    else :
+        # Clean up
+        cv2.destroyAllWindows()
 
-# Clean up
-cv2.destroyAllWindows()
 
 
