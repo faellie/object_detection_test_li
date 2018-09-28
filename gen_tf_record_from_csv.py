@@ -20,9 +20,14 @@ from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
 flags = tf.app.flags
-flags.DEFINE_string('csv_input',  'croped_train.csv', 'the annotation file')
-flags.DEFINE_string('output_path',  'data/train/croped_train.record', 'output filename')
-flags.DEFINE_string('image_dir',  '/opt/TF/test/t1/out', 'dir for the image')
+#flags.DEFINE_string('csv_input',  '/opt/TF/test/FullSet/training/train.csv', 'the annotation file')
+#flags.DEFINE_string('output_path',  'data/train/train.record', 'output filename')
+#flags.DEFINE_string('image_dir',  '/opt/TF/test/FullSet/training/', 'dir for the image')
+
+flags.DEFINE_string('csv_input',  '/opt/TF/test/FullSet/eval/eval.csv', 'the annotation file')
+flags.DEFINE_string('output_path',  'data/test/eval.record', 'output filename')
+flags.DEFINE_string('image_dir',  '/opt/TF/test/FullSet/eval/', 'dir for the image')
+
 FLAGS = flags.FLAGS
 
 

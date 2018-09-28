@@ -27,9 +27,11 @@ def xml_to_csv(path):
 
 
 def main():
-    image_path = '/opt/TF/test/t1/out'
+    #image_path = '/opt/TF/test/FullSet/eval'
+    image_path = '/opt/TF/test/FullSet/training'
     xml_df = xml_to_csv(image_path)
-    xml_df.to_csv('croped_train.csv', index=None)
+    #xml_df.to_csv(image_path + '/train.csv', index=None)
+    xml_df.to_csv(image_path + '/eval.csv', index=None)
     print('Successfully converted xml to csv.')
 
 
