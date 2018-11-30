@@ -21,7 +21,7 @@ print(tf.__version__)
 #fashion_mnist = keras.datasets.fashion_mnist
 
 class_names = ['zero', 'one', 'two', 'three', 'four',
-               'five', 'six', 'seven', 'eight', 'nine']
+               'five', 'six', 'seven', 'eight', 'nine', 'bg']
 
 #slid over the image and create a list boxes of width and height
 # stride_x and stride_y define the slid pixels in x and y dir
@@ -31,8 +31,8 @@ def sliding_over(image, box_width=24, box_height=36, stride_x= 2, stride_y = 2, 
     imgheight, imgwidth  = image.shape[:2]
     x_slids = (imgwidth - box_width)//stride_x
     y_slids = (imgheight-box_height)//stride_y
-    for x0 in range(0, x_slids, stride_x):
-        for y0 in  range(0, y_slids, stride_y):
+    for x0 in range(0, imgwidth, stride_x):
+        for y0 in  range(0, imgheight, stride_y):
             x1 = x0   + box_width
             y1 = y0 + box_height
             if(x1 <= imgwidth and y1 <= imgheight):
@@ -51,7 +51,9 @@ def sliding_over(image, box_width=24, box_height=36, stride_x= 2, stride_y = 2, 
         make_sure_path_exists(save_to_file)
         index = 0
         for box in boxes:
-            filepath = os.path.join(save_to_file, 'box'+ str(index) + '.jpg')
+            #filepath = os.path.join(save_to_file, 'box'+ str(index) + '.jpg')
+            (x0, y0, x1, y1) = postions[index]
+            filepath = os.path.join(save_to_file, str(x0) + '_' + str(y0) + '.jpg')
             print('writing to ', filepath)
             cv2.imwrite(filepath, box)
             index = index + 1
@@ -84,6 +86,8 @@ def extractLabelFromPath(fullpathfile):
         return 8
     if('/nine/' in fullpathfile):
         return 9
+    if('/bg/' in fullpathfile):
+        return 10
     else:
         return -1
 

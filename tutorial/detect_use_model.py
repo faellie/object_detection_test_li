@@ -22,10 +22,10 @@ loaded_model.load_weights("/opt/tmp/model.h5")
 print("Loaded model from disk")
 
 
-test_images = load_images_for_detect('/opt/tmp/image/t1')
-#test_images = load_images_for_detect('/opt/tmp/out/seven')
+test_images = load_images_for_detect('/opt/tmp/image/croped')
+#test_images = load_images_for_detect('/opt/tmp/out/bg')
 class_names = ['zero', 'one', 'two', 'three', 'four',
-               'five', 'six', 'seven', 'eight', 'nice']
+               'five', 'six', 'seven', 'eight', 'nine', 'bg']
 
 
 
@@ -39,7 +39,7 @@ if(0):
         plt.figure()
         plt.imshow(img)
         plt.show()
-if(0):
+if(1):
     plt.figure(figsize=(12,12))
     for i in range(min(100, len(test_images))):
         plt.subplot(10, 10, i+1)
@@ -69,7 +69,7 @@ if(1):
         number = loaded_model.predict_classes(x)
         probs = loaded_model.predict_proba(x)
         prob = probs[0][number][0]
-        if(prob > 0.5):
+        if(prob > 0.9 and number != 10):
             print('found ' + str(number))
             count += 1
     print('total count ' , count)
